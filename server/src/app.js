@@ -4,6 +4,7 @@ const connectDB = require("./config/database");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const http = require("http");
+const path = require("path")
 const initializeSocket = require("./utils/socket");
 require("dotenv").config();
 const PORT = process.env.PORT || 3000;
@@ -16,6 +17,7 @@ app.use(
     origin:[process.env.FRONTEND_URL],
     methods:["GET","POST","PATCH","PUT"],
     credentials: true,
+    exposedHeaders:["TOKEN"]
   })
 );
 
@@ -34,6 +36,11 @@ app.use("/api", profileRouter);
 app.use("/api", requestRouter);
 app.use("/api", userRouter);
 app.use("/api", chatRouter);
+app.use(express.static("./dist"))
+
+app.get("/",(req,res)=>{
+  return res.render("index.html")
+})
 
 
 const server = http.createServer(app);

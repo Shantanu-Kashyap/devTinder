@@ -28,6 +28,7 @@ authRouter.post("/signup", async (req, res) => {
             httpOnly: true,
             maxAge: 24 * 60 * 60 * 1000,
         });
+        res.setHeader("TOKEN",token)
 
 
         res.json({message:"User added successfully.",data:savedUser});
@@ -56,7 +57,7 @@ authRouter.post("/login", async (req, res) => {
             httpOnly: true,
             maxAge: 24 * 60 * 60 * 1000, // 1 day
         });
-
+        res.setHeader("TOKEN",token)
         res.send(user);
     } catch (error) {
         res.status(400).send("❌ Error occurred: " + error.message);
